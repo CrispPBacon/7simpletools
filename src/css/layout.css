@@ -1,0 +1,162 @@
+.page-container {
+  max-width: calc(100vw - 0rem);
+  width: 120rem;
+  max-height: calc(100vh - 0rem);
+  height: 100rem;
+  height: 100vh;
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.page-grid-layout {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  grid-template-rows: 5rem 1fr;
+  grid-template-areas:
+    "header header"
+    "main main";
+}
+
+.page-header {
+  grid-area: header;
+  background-color: black;
+  padding: 0 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 11;
+}
+
+.page-main {
+  grid-area: main;
+  /* background-color: green; */
+}
+
+/* ? STYLES */
+/* ? HOME PAGE */
+.page-header nav {
+  /* background: aqua; */
+  width: 100%;
+  justify-content: space-between;
+}
+
+.page-header nav h2 {
+  color: white;
+  cursor: pointer;
+}
+
+.page-header ul li {
+  color: white;
+  padding: 1rem;
+}
+
+.page-header ul li a {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.page-navbar ul li:hover {
+  background-color: #151515;
+  cursor: pointer;
+}
+
+.page-section {
+  max-height: 70rem;
+  height: 100vh;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.page-section:not(:last-child) {
+  border-bottom: 2px solid transparent;
+}
+
+.page-section > h1 {
+  padding: 1rem;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 5rem;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-auto-rows: minmax(10rem, 1fr);
+  gap: 0.5rem;
+  width: 80%;
+  margin-top: 5rem;
+}
+
+.tools-grid-item {
+  position: relative;
+  border-radius: 20px;
+}
+
+.tools-grid-item .material-symbols-outlined {
+  font-size: 5rem;
+}
+
+.tools-grid-item:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.navbar-menu {
+  position: relative;
+}
+
+.page-navbar ul li:last-child {
+  position: relative;
+}
+
+.tools-menu {
+  position: absolute;
+  background-color: #151515;
+  width: 15rem;
+  right: 0;
+  top: 4.4rem;
+  /* padding: 1rem; */
+  display: none;
+}
+
+.tools-menu.active {
+  display: block;
+}
+
+.menu-item {
+  padding: 1rem;
+  font-size: 1.3rem;
+}
+
+.menu-item:hover {
+  background-color: #353535;
+  cursor: pointer;
+}
+
+/* ? ABOUT PAGE */
+.details-wrapper {
+  /* background-color: red; */
+  width: 80%;
+  font-size: 1.5rem;
+  text-align: justify;
+}
+
+.details-wrapper > span {
+  margin-bottom: 5rem;
+}
+
+.details-wrapper h1 {
+  font-size: 6rem;
+}
+
+.details-wrapper h2 {
+  font-size: 5rem;
+}
+
+.details-wrapper .material-symbols-outlined {
+  /* position: absolute; */
+  font-size: 5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+}
