@@ -170,6 +170,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: "10px",
     width: "100%",
     padding: "10px",
+    color: "black",
   },
   button: {
     padding: "10px 20px",
