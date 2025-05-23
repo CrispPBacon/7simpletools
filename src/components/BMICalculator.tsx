@@ -1,113 +1,233 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 
-const BMICalculator: React.FC = () => {
-  const [weight, setWeight] = useState<string>(""); // in kg
-  const [height, setHeight] = useState<string>(""); // in cm
-  const [bmi, setBmi] = useState<number | null>(null);
-  const [message, setMessage] = useState<string>("");
+const styles = {
+  container: {
+    background: "rgba(255, 255, 255, 0.1)",
+    padding: "2.5rem 3rem",
+    borderRadius: "20px",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
+    width: 320,
+    textAlign: "center" as const,
+    transition: "background 0.3s ease",
+    fontFamily: "'Poppins', sans-serif",
+    color: "#fff",
+  },
+  containerHover: {
+    background: "rgba(255, 255, 255, 0.15)",
+  },
+  heading: {
+    marginBottom: "1rem",
+    fontWeight: 600,
+    fontSize: "2rem",
+    letterSpacing: "1.2px",
+  },
+  paragraph: {
+    marginTop: 0,
+    marginBottom: "2rem",
+    fontWeight: 400,
+    fontSize: "0.9rem",
+    color: "black",
+  },
+  label: {
+    display: "block",
+    textAlign: "left" as const,
+    fontWeight: 500,
+    marginBottom: "0.4rem",
+    fontSize: "0.9rem",
+    color: "black",
+  },
+  input: {
+    width: "100%",
+    padding: "0.6rem 0.8rem",
+    marginBottom: "1.4rem",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "1rem",
+    fontWeight: 500,
+    boxSizing: "border-box" as const,
+    color: "black",
+  },
+  inputFocus: {
+    outline: "none",
+    boxShadow: "0 0 8px #764ba2",
+  },
+  button: {
+    backgroundColor: "#764ba2",
+    color: "white",
+    border: "none",
+    padding: "0.8rem 0",
+    width: "100%",
+    fontSize: "1.1rem",
+    fontWeight: 600,
+    borderRadius: "12px",
+    cursor: "pointer",
+    transition: "background 0.3s ease",
+  },
+  buttonHover: {
+    backgroundColor: "#667eea",
+  },
+  result: {
+    marginTop: "1.8rem",
+    fontSize: "1.3rem",
+    fontWeight: 600,
+    padding: "0.8rem 1rem",
+    borderRadius: "12px",
+    background: "rgba(118, 75, 162, 0.3)",
+    minHeight: 48,
+    color: "purple",
+  },
+  status: {
+    marginTop: "0.5rem",
+    fontSize: "1rem",
+    fontWeight: 500,
+    minHeight: 24,
+    color: "black",
+  },
+};
 
-  const styles = {
-    container: {
-      maxWidth: 400,
-      margin: "40px auto",
-      padding: 30,
-      borderRadius: 12,
-      backgroundColor: "#fff",
-      boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-      fontFamily: `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`,
-      textAlign: "center" as const,
-    },
-    heading: {
-      marginBottom: 24,
-      color: "#333",
-    },
-    input: {
-      width: "100%",
-      padding: 10,
-      marginBottom: 15,
-      fontSize: 16,
-      borderRadius: 6,
-      border: "1px solid #ccc",
-      boxSizing: "border-box" as const,
-      color: "black",
-    },
-    button: {
-      padding: "12px 20px",
-      fontSize: 16,
-      borderRadius: 6,
-      border: "none",
-      backgroundColor: "#4CAF50",
-      color: "white",
-      cursor: "pointer",
-      width: "100%",
-      marginTop: 10,
-    },
-    result: {
-      marginTop: 20,
-      fontWeight: "600",
-      fontSize: 18,
-      color: "#222",
-    },
-    message: {
-      marginTop: 8,
-      fontSize: 16,
-      color: "#555",
-    },
-  };
+const BmiCalculator: React.FC = () => {
+  const [weight, setWeight] = useState<string>("");
+  const [height, setHeight] = useState<string>("");
+  const [bmi, setBmi] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
+  const [weightFocused, setWeightFocused] = useState<boolean>(false);
+  const [heightFocused, setHeightFocused] = useState<boolean>(false);
+  const [buttonHover, setButtonHover] = useState<boolean>(false);
 
   const calculateBMI = () => {
-    const w = parseFloat(weight);
-    const h = parseFloat(height);
+    const weightNum = parseFloat(weight);
+    const heightNum = parseFloat(height);
 
-    if (isNaN(w) || isNaN(h) || w <= 0 || h <= 0) {
-      setBmi(null);
-      setMessage("Please enter valid positive numbers for weight and height.");
+    if (!weightNum || weightNum <= 0) {
+      setBmi("");
+      setStatus("Please enter a valid weight.");
+      return;
+    }
+    if (!heightNum || heightNum <= 0) {
+      setBmi("");
+      setStatus("Please enter a valid height.");
       return;
     }
 
-    // Height in meters
-    const heightMeters = h / 100;
-    const bmiValue = w / (heightMeters * heightMeters);
-    setBmi(bmiValue);
+    const heightM = heightNum / 100;
+    const bmiVal = weightNum / (heightM * heightM);
+    const roundedBmi = bmiVal.toFixed(1);
 
-    if (bmiValue < 18.5) setMessage("You are underweight.");
-    else if (bmiValue < 24.9) setMessage("You have a normal weight.");
-    else if (bmiValue < 29.9) setMessage("You are overweight.");
-    else setMessage("You are obese.");
+    setBmi(`Your BMI is ${roundedBmi}`);
+
+    if (bmiVal < 18.5) {
+      setStatus("Underweight");
+    } else if (bmiVal >= 18.5 && bmiVal < 25) {
+      setStatus("Normal weight");
+    } else if (bmiVal >= 25 && bmiVal < 30) {
+      setStatus("Overweight");
+    } else {
+      setStatus("Obese");
+    }
+  };
+
+  const handleWeightChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setWeight(e.target.value);
+  };
+
+  const handleHeightChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setHeight(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      calculateBMI();
+    }
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>BMI Calculator</h1>
-      <input
-        type="number"
-        placeholder="Weight (kg)"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
-        style={styles.input}
-        min="0"
-      />
-      <input
-        type="number"
-        placeholder="Height (cm)"
-        value={height}
-        onChange={(e) => setHeight(e.target.value)}
-        style={styles.input}
-        min="0"
-      />
-      <button onClick={calculateBMI} style={styles.button}>
-        Calculate BMI
-      </button>
+    <section className="page-section flex-center flex--column">
+      <div>
+        <div
+          style={{
+            ...styles.container,
+            ...(buttonHover ? styles.containerHover : {}),
+          }}
+          role="main"
+          aria-label="BMI Calculator"
+        >
+          <h1 style={styles.heading}>BMI Calculator</h1>
+          <p style={styles.paragraph}>
+            Enter your weight and height to calculate your Body Mass Index.
+          </p>
 
-      {bmi !== null && (
-        <div style={styles.result}>
-          Your BMI: {bmi.toFixed(2)}
-          <p style={styles.message}>{message}</p>
+          <label htmlFor="weight" style={styles.label}>
+            Weight (kg)
+          </label>
+          <input
+            type="number"
+            id="weight"
+            min={1}
+            step={0.1}
+            placeholder="e.g. 70"
+            aria-describedby="weightHelp"
+            value={weight}
+            onChange={handleWeightChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setWeightFocused(true)}
+            onBlur={() => setWeightFocused(false)}
+            style={{
+              ...styles.input,
+              ...(weightFocused ? styles.inputFocus : {}),
+            }}
+          />
+
+          <label htmlFor="height" style={styles.label}>
+            Height (cm)
+          </label>
+          <input
+            type="number"
+            id="height"
+            min={30}
+            step={0.1}
+            placeholder="e.g. 175"
+            aria-describedby="heightHelp"
+            value={height}
+            onChange={handleHeightChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setHeightFocused(true)}
+            onBlur={() => setHeightFocused(false)}
+            style={{
+              ...styles.input,
+              ...(heightFocused ? styles.inputFocus : {}),
+            }}
+          />
+
+          <button
+            id="calculateBtn"
+            onClick={calculateBMI}
+            aria-label="Calculate BMI"
+            onMouseEnter={() => setButtonHover(true)}
+            onMouseLeave={() => setButtonHover(false)}
+            style={{
+              ...styles.button,
+              ...(buttonHover ? styles.buttonHover : {}),
+            }}
+          >
+            Calculate BMI
+          </button>
+
+          <div
+            id="bmiResult"
+            role="region"
+            aria-live="polite"
+            aria-atomic="true"
+            style={styles.result}
+          >
+            {bmi}
+          </div>
+          <div id="bmiStatus" style={styles.status}>
+            {status}
+          </div>
         </div>
-      )}
-      {bmi === null && message && <p style={styles.message}>{message}</p>}
-    </div>
+      </div>
+    </section>
   );
 };
 
-export default BMICalculator;
+export default BmiCalculator;
