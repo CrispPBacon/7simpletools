@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Header-zWh6qWMq.js","assets/index-C7D63W8l.js","assets/index-CSckjhrZ.css"])))=>i.map(i=>d[i]);
+import{j as a,R as e,O as s,_ as t}from"./index-C7D63W8l.js";const r=e.lazy(()=>t(()=>import("./Header-zWh6qWMq.js"),__vite__mapDeps([0,1,2])));function n(){return a.jsxs(a.Fragment,{children:[a.jsx(r,{}),a.jsx("main",{className:"page-main",children:a.jsx(s,{})}),";"]})}export{n as default};
