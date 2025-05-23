@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Header-BeTzweyd.js","assets/index--6j6cWDD.js","assets/index-h0VmfyFK.css"])))=>i.map(i=>d[i]);
-import{j as a,R as e,O as s,_ as t}from"./index--6j6cWDD.js";const r=e.lazy(()=>t(()=>import("./Header-BeTzweyd.js"),__vite__mapDeps([0,1,2])));function n(){return a.jsxs(a.Fragment,{children:[a.jsx(r,{}),a.jsx("main",{className:"page-main",children:a.jsx(s,{})}),";"]})}export{n as default};
